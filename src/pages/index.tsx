@@ -16,7 +16,7 @@ export default function Home() {
     const result: string[] = [];
     const len = message.split("").length / 140;
     for (let i = 0; i <= len; i++) {
-      const content = message.substring(i * 140, i * 2 * 140);
+      const content = message.substring(i * 140, i === 0 ? 140 : (i + 1) * 140);
       result.push(content);
     }
 
@@ -48,7 +48,7 @@ export default function Home() {
             placeholder="Write your content..."
           />
         </div>
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 w-full overflow-scroll ">
           {slice.map((data, index) => {
             return <SliceCard key={index} text={data} />;
           })}
