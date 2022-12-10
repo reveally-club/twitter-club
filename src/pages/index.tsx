@@ -15,7 +15,7 @@ export default function Home() {
   const sliceContent = () => {
     const result: string[] = [];
     const len = message.split("").length / 140;
-    for (let i = 1; i <= len; i++) {
+    for (let i = 0; i <= len; i++) {
       const content = message.substring(i * 140, i * 2 * 140);
       result.push(content);
     }
