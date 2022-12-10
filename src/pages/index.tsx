@@ -4,7 +4,7 @@ import SliceCard from "../components/slice-card";
 
 export default function Home() {
   const [message, setMessage] = useState("");
-  const [slice, setSlice] = useState([]);
+  const [slice, setSlice] = useState<string[]>([]);
 
   const handleMessageChange = (event: {
     target: { value: SetStateAction<string> };
@@ -13,7 +13,7 @@ export default function Home() {
   };
 
   const sliceContent = () => {
-    const result: [] = [];
+    const result: string[] = [];
     const len = message.split("").length / 140;
     for (let i = 1; i <= len; i++) {
       const content = message.substring(i * 140, i * 2 * 140);
