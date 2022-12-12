@@ -1,8 +1,10 @@
 import { SetStateAction, useState } from "react";
+import { Identify, track } from "@amplitude/analytics-browser";
 import Layout from "../components/layout";
 import SliceCard from "../components/slice-card";
 
 export default function Home() {
+  const [userCount, setUserCount] = useState(0);
   const [message, setMessage] = useState("");
   const [slice, setSlice] = useState<string[]>([]);
 
@@ -19,6 +21,15 @@ export default function Home() {
       const content = message.substring(i * 140, i === 0 ? 140 : (i + 1) * 140);
       result.push(content);
     }
+
+    const eventProperties = {
+      "Content Length": message.length,
+      "Sliced Thread Count": len,
+    };
+
+    setUserCount(userCount + 1);
+    new Identify().set("Slice Count", userCount)
+    track("Click Project Information", eventProperties);
 
     setSlice(result);
   };
@@ -50,7 +61,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4 w-full overflow-scroll ">
           {slice.map((data, index) => {
-            return <SliceCard key={index} text={data} />;
+            return <SliceCard key={index} index={index} text={data} />;
           })}
         </div>
       </div>
