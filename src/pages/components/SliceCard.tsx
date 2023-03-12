@@ -1,25 +1,28 @@
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { track } from "@amplitude/analytics-browser";
+import { NextPage } from "next";
 
 export interface Props {
   index: number;
   text: string;
 }
 
-const SliceCard = (props: Props) => {
+const SliceCard: NextPage<Props> = ({ index, text }) => {
+  const handleCopy = () => {
+    const eventProperties = {
+      "Sliced Thread Number": index,
+    };
+    track("Copy Sliced Content", eventProperties);
+  };
+
   return (
     <div className="w-full rounded overflow-hidden shadow-lg bg-white p-4">
       <div className="flex justify-between" id="tool-box">
-        <CopyToClipboard text={props.text}>
+        <CopyToClipboard text={text}>
           <button
             type="button"
             className="text-blue-400 border border-blue-400 hover:bg-blue-400 hover:text-white focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center mr-2"
-            onClick={() => {
-              const eventProperties = {
-                "Sliced Thread Number": props.index,
-              };
-              track("Copy Sliced Content", eventProperties);
-            }}
+            onClick={handleCopy}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -39,12 +42,12 @@ const SliceCard = (props: Props) => {
           </button>
         </CopyToClipboard>
         <div className="flex text-xs">
-          <p className="mr-1 font-bold">{props.text.length}</p>
+          <p className="mr-1 font-bold">{text ? text.length : 0}</p>
           <p>words</p>
         </div>
       </div>
       <div>
-        <p className="text-gray-700 text-base pt-2">{props.text}</p>
+        <p className="text-gray-700 text-base pt-2">{text}</p>
       </div>
     </div>
   );
